@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Streamkeys Extension Options</title>
+  <title>Streamkeys Quantum Extension Options</title>
   <link type="text/css" rel="stylesheet" href="/css/material.min.css">
   <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
   <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -25,9 +25,8 @@
         <li>
           <a href="#" data-bind="click: function() { $data.selectedTab('general') }, css: { selected: $data.selectedTab() == 'general' }"><span class="menu-title">General</span><span class="menu-arrow"></span></a>
         </li>
-        <li><a href="http://www.streamkeys.com/guide.html" target="_blank"><span class="menu-title">Help</span><span class="menu-arrow"></span></a></li>
-        <li><a href="http://www.streamkeys.com/faq.html" target="_blank"><span class="menu-title">FAQ</span><span class="menu-arrow"></span></a></li>
-        <li><a href="http://www.streamkeys.com/donate.html" target="_blank"><span class="menu-title">Donate</span><span class="menu-arrow"></span></a></li>
+        <li><a href="https://lnurl.ru/streamkeys-quantum" target="_blank"><span class="menu-title">Help</span><span class="menu-arrow"></span></a></li>
+        <li><a href="https://lnurl.ru/streamkeys-quantum-donate" target="_blank"><span class="menu-title">Donate</span><span class="menu-arrow"></span></a></li>
       </ul>
     </div>
     <div class="content">
@@ -150,24 +149,6 @@
           To change the hotkey bindings go to the chrome extensions page (enter chrome://extensions in the URL bar) and click the "Keyboard shortcuts" link at the bottom of the page. <a href="http://www.streamkeys.com/guide.html" target="_blank">Read the guide</a>          for more detailed information
         </p>
         <h3>Hotkey Bindings</h3>
-        <table class="mdl-data-table mdl-js-data-table" id="hotkeys-table">
-          <thead>
-            <tr>
-              <th class="mdl-data-table__cell--non-numeric">Action</th>
-              <th class="mdl-data-table__cell--non-numeric">Key Binding</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- ko foreach: $data.commandList -->
-            <!-- ko if: $data.description !== '' -->
-            <tr>
-              <td data-bind="text: $data.description"></td>
-              <td data-bind="text: $data.shortcut || 'Not Set'"></td>
-            </tr>
-            <!-- /ko -->
-            <!-- /ko -->
-          </tbody>
-        </table>
         <button class="mdl-button mdl-js-button mdl-button--raised" data-bind="click: $data.openExtensionKeysPage">Configure Hotkeys</button>
         <!-- /ko -->
       </div>
@@ -175,10 +156,9 @@
   </div>
   <div class="footer">
     <div class="footer-content">
-      <span><a href="http://www.streamkeys.com" target="_blank">Homepage</a></span>
-      <span><a href="http://www.github.com/berrberr/streamkeys" target="_blank">GitHub</a></span>
-      <span><a href="http://www.twitter.com/streamkeys" target="_blank">Twitter</a></span>
-      <span><a href="mailto:alex@aegabriel.com">alex@aegabriel.com</a></span>
+      <span><a href="https://lnurl.ru/streamkeys-quantum" target="_blank">Homepage</a></span>
+      <span><a href="https://github.com/Egor3f/streamkeys-quantum" target="_blank">GitHub</a></span>
+      <span><a href="mailto:skq-support@efprojects.com">skq-support@efprojects.com</a></span>
     </div>
   </div>
 

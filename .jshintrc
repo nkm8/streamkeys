@@ -5,6 +5,7 @@
     "$": true,
     "console": true,
     "chrome": true,
+    "browser": true,
     "require": true,
     "define": true,
     "module": true,

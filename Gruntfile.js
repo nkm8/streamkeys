@@ -111,7 +111,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-karma");
 
   /* Tasks */
-  grunt.registerTask(
+  /*grunt.registerTask(
     "manifest", "Extend manifest.json with extra fields from package.json",
     function() {
       var fields = ["name", "version", "description"];
@@ -122,13 +122,13 @@ module.exports = function(grunt) {
       grunt.file.write("build/unpacked-dev/manifest.json", JSON.stringify(mnf, null, 2) + "\n");
       grunt.log.ok("manifest.json generated");
     }
-  );
+  );*/
 
   grunt.registerTask("lint", ["jshint", "lintspaces"]);
   grunt.registerTask("test", ["karma"]);
   grunt.registerTask("rel-test", ["rel", "test"]);
-  grunt.registerTask("dev-pre", ["jshint", "lintspaces", "clean", "mkdir:unpacked", "sass:dev", "copy:main", "manifest"]);
+  grunt.registerTask("dev-pre", [/*"jshint", */"lintspaces", "clean", "mkdir:unpacked", "sass:dev", "copy:main"/*, "manifest"*/]);
   grunt.registerTask("dev", ["dev-pre", "browserify"]);
 
-  grunt.registerTask("rel", ["jshint", "lintspaces", "clean", "mkdir:unpacked", "sass:prod", "copy:main", "manifest", "browserify", "copy:prod", "uglify"]);
+  grunt.registerTask("rel", ["jshint", "lintspaces", "clean", "mkdir:unpacked", "sass:prod", "copy:main", /*"manifest", */"browserify", "copy:prod", "uglify"]);
 };

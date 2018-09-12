@@ -1,12 +1,27 @@
-# Streamkeys v1.7.6 [![Build Status](https://travis-ci.org/berrberr/streamkeys.svg?branch=master)](https://travis-ci.org/berrberr/streamkeys)
+## Streamkeys Quantum Beta
 
-Chrome extension to send "global" (ie. across the browser) hotkeys to various online media players.
+Firefox extension to send "global" (ie. across the browser) hotkeys to various online media players.
 
-It is available on the Chrome Store:
+This extension is the fork of [Streamkeys](https://github.com/berrberr/streamkeys) Chrome extension.
+It's the first Firefox Quantum extension with the ability to capture Play/Pause/Next/Prev button events globally (so you can control your music even if the browser is minimized).
 
-https://chrome.google.com/webstore/detail/streamkeys/ekpipjofdicppbepocohdlgenahaneen?hl=en
+**Attention!** At the time this extension works only on Windows OS (XP to 10). It requires an installation of additioal software *SKQGlobalCommandSupport*.
+It's 100% opensource and contains no viruses nor spyware. It is as small as 850 kilobytes and consumes only 2 Mb of RAM.
 
-## Installation
+**First beta version does not support key configuration.**
+Default config is mapped to media keys on yor keyboard. If you have no such, please wait for the next version with remapping support or consider buying more modern keyboard.
+Even $5-$10 keyboards from your local store have such keys in 2018.
+
+## SKQGlobalCommandSupport application compiling
+
+Use "AutoIt3Wrapper GUI to Compile AutoIt3 Script" application to compile .au3 file into .exe
+
+Copy signed .xpi file with proper filename to folder /win32au3/extension. Copy comilped streamkeyshelper.exe to script folder.
+Then Use InnoSetup with provided config to make an installer, (you may need to adjust file paths in .iss file).
+
+## Streamkeys Javascript webextension compiling
+
+### Installation
 
 #### Requirements
 
@@ -38,7 +53,7 @@ $ grunt dev
 
 ## Info
 
-This extension works by sending click events to the elements that control the music player. Each music site has an associated controller which contains the css selectors for the play/pause/next/previous/mute buttons (where available). In addition there is a [`BaseController`][0] module which contains common functions that are shared across all controllers.
+This extension works by sending click events to the elements that control the music player. Each music site has an associated controller which contains the css selectors for the play/pause/next/previous/mute buttons (where available). In addition there is a BaseController module which contains common functions that are shared across all controllers.
 
 The background script routes hotkey presses from the user to the correct tab (ie., the media player(s) tab) if the media player site is enabled.
 
@@ -111,8 +126,9 @@ To run the tests locally, simply
 $ grunt test
 ```
 
-## License (MIT)
 
-Copyright (c) 2014 Alex Gabriel under the MIT license.
+### License: GPLv3
+(c) 2018 Egor Aristov
 
-[0]: https://github.com/berrberr/streamkeys/blob/master/code/js/modules/BaseController.js
+### Original work:
+License: MIT (c) 2014 Alex Gabriel

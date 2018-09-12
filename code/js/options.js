@@ -2,6 +2,7 @@
 
 var ko = require("ko");
 require("./lib/material.min.js");
+// let commandSupport = require("./quantum/commandsupport.js");
 
 var OptionsViewModel = function OptionsViewModel() {
   var self = this;
@@ -11,20 +12,14 @@ var OptionsViewModel = function OptionsViewModel() {
   self.sitelistInitialized = ko.observable(false);
   self.settingsInitialized = ko.observable(false);
   self.sitelist = ko.observableArray([]);
-  self.commandList = ko.observableArray([]);
 
   self.loadingComplete = ko.pureComputed(function() {
     return self.sitelistInitialized() && self.settingsInitialized();
   });
 
-  chrome.commands.getAll(function(commands) {
-    self.commandList(commands);
-  });
-
   self.openExtensionKeysPage = function() {
-    chrome.tabs.create({
-      url: "chrome://extensions/configureCommands"
-    });
+    // TODO: Open GCS window
+    window.alert("This is the first beta version of firefox extension, it doesn't support key remapping yet. Special media keys used by default.");
   };
 
   // Load localstorage settings into observables

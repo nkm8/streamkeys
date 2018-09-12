@@ -1,0 +1,7 @@
+{
+  "name": "skqgcs",
+  "description": "StreamKeysQuantum GlobalCommandSupport",
+  "path": "streamkeyshelper.exe",
+  "type": "stdio",
+  "allowed_extensions": [ "skq@efprojects.com" ]
+}

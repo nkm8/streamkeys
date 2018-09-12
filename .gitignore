@@ -10,3 +10,6 @@ streamkeys.zip
 *.sublime-project
 npm-debug.log
 test-selectors/
+/SKQGlobalCommandSupport/win32au3/innosetup/Output/StreamKeys_Firefox_Quantum.exe
+/SKQGlobalCommandSupport/win32au3/extension/skq@efprojects.com.xpi
+/SKQGlobalCommandSupport/win32au3/script/streamkeyshelper.exe

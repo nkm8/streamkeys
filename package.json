@@ -1,10 +1,10 @@
 {
-  "name": "Streamkeys",
-  "version": "1.7.6",
+  "name": "Streamkeys-Quantum",
+  "version": "1.7.6.1",
   "description": "Global hotkeys for online music players including support for media keys.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/berrberr/streamkeys.git"
+    "url": "git://github.com/Egor3f/streamkeys-quantum"
   },
   "license": "MIT",
   "browser": {

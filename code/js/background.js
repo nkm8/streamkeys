@@ -1,6 +1,8 @@
 ;(function() {
   "use strict";
 
+  var CommandSupport = require("./quantum/commandsupport.js");
+
   var Sitelist = require("./modules/Sitelist.js"),
       _ = require("lodash");
 
@@ -121,13 +123,6 @@
       sendAction(request.command);
     }
   };
-
-  /**
-   * Capture hotkeys and send their actions to tab(s) with music player running
-   */
-  chrome.commands.onCommand.addListener(function(command) {
-    sendAction(command);
-  });
 
   /**
    * Messages sent from Options page
@@ -252,13 +247,16 @@
       });
     });
 
-    // Store commands in global
-    chrome.commands.getAll(function(cmds) {
-      window.coms = cmds;
-    });
-
     // Define skSites as a sitelist in global context
     window.skSites = new Sitelist();
     window.skSites.loadSettings();
   });
+
+  /**
+   * Capture hotkeys and send their actions to tab(s) with music player running
+   */
+  CommandSupport.listenForCommands(function(action) {
+    sendAction(action);
+  });
+
 })();
