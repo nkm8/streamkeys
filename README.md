@@ -16,7 +16,7 @@ Even $5-$10 keyboards from your local store have such keys in 2018.
 
 Use "AutoIt3Wrapper GUI to Compile AutoIt3 Script" application to compile .au3 file into .exe
 
-Copy signed .xpi file with proper filename to folder /win32au3/extension. Copy comilped streamkeyshelper.exe to script folder.
+Copy signed .xpi file with proper filename to folder /win32au3/extension. 
 Then Use InnoSetup with provided config to make an installer, (you may need to adjust file paths in .iss file).
 
 ## Streamkeys Javascript webextension compiling
