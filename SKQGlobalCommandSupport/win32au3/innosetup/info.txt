@@ -9,7 +9,7 @@ It is the fork of original Google Chrome extension names "StreamKeys"
 
 Attention! This file is a beta version, it does not contain many significant features, such as key remapping (only default media keys are supported).
 
-(c) 2018-2019, Egor Aristov a.k.a. Egor3f 
+(c) 2018, Egor Aristov a.k.a. Egor3f 
 
 https://efprojects.com/ 
 

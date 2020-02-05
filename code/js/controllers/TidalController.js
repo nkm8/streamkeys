@@ -5,12 +5,13 @@
 
   new BaseController({
     siteName: "Tidal",
-    play: ".play-controls .js-play",
-    pause: ".play-controls .js-pause",
-    playNext: ".play-controls .js-next",
-    playPrev: ".play-controls .js-previous",
+    play: "[data-test=play]",
+    pause: "[data-test=pause]",
+    playNext: "[data-test=next]",
+    playPrev: "[data-test=previous]",
 
-    song: "[data-test-id=track-title]",
-    artist: "[data-test-id=artist-title]"
+    song: "[data-test=track-title]",
+    artist: "[data-test=artist-title]",
+    buttonSwitch : true
   });
 })();

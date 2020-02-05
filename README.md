@@ -16,7 +16,7 @@ Even $5-$10 keyboards from your local store have such keys in 2018.
 
 Use "AutoIt3Wrapper GUI to Compile AutoIt3 Script" application to compile .au3 file into .exe
 
-Copy signed .xpi file with proper filename to folder /win32au3/extension. 
+Copy signed .xpi file with proper filename to folder /win32au3/extension. Copy comilped streamkeyshelper.exe to script folder.
 Then Use InnoSetup with provided config to make an installer, (you may need to adjust file paths in .iss file).
 
 ## Streamkeys Javascript webextension compiling
@@ -29,27 +29,34 @@ Then Use InnoSetup with provided config to make an installer, (you may need to a
 
 #### Install
 
-Clone the repo and then
+Clone the repo and then install dependencies:
 
 ```bash
 $ npm install
 ```
 
-to install dependencies. Then to build the extension run
+Then to build the extension in watch mode, run:
 
 ```bash
-$ grunt dev
+$ npm run develop
 ```
+In Chrome, load the unpacked extension from `build/unpacked-dev/`.
 
-## Grunt Tasks
 
-- `grunt dev`: Lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/` and `test/streamkeys-ext/`
 
-- `grunt rel`: Lints `code/*`, runs browserify and uglify and copies built code to `build/unpacked-prod/` and `test/streamkeys-ext/`
+## NPM Scripts
+- `npm test`: Run unit tests.
 
-- `grunt watch`: Watches for changes to JS files in `code/*`, lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/`
+- `npm run develop`: Lints `code/*`, runs browserify, copies built code to `build/unpacked-dev/` and `test/streamkeys-ext/` in watch mode
 
-- `grunt lint`: Lints `code/*`
+- `npm run grunt:dev`: Lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/` and `test/streamkeys-ext/`
+
+- `npm run grunt:rel`: Lints `code/*`, runs browserify and uglify and copies built code to `build/unpacked-prod/` and `test/streamkeys-ext/`
+
+- `npm run grunt:watch`: Watches for changes to JS files in `code/*`, lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/`
+
+- `npm run grunt:lint`: Lints `code/*`
+
 
 ## Info
 
@@ -123,11 +130,38 @@ There is a Karma test suite that simulates core extension functionality. The aut
 To run the tests locally, simply
 
 ```bash
-$ grunt test
+$ npm test
+```
+
+## Linux MPRIS support
+
+On Linux you can enable basic MPRIS support in options. Currently this requires
+`single player mode` to be enabled. It requires an extra host script to be
+installed.
+
+#### Install host script
+
+To install the host script, locate the extension ID from the Chrome extensions page
+and run the following commands:
+
+```bash
+$ extension_id="....."
+$ installer=$(find $HOME/.config -name "mpris_host_setup.py" | grep ${extension_id})
+$ python3 ${installer} install ${extension_id}
+```
+
+#### Uninstall host script
+
+To uninstall the host script, locate the extension ID from the Chrome extensions page
+and run the following commands:
+
+```bash
+$ extension_id="....."
+$ installer=$(find $HOME/.config -name "mpris_host_setup.py" | grep ${extension_id})
+$ python3 ${installer} uninstall
 ```
 
 
-### License: GPLv3
 (c) 2018 Egor Aristov
 
 ### Original work:

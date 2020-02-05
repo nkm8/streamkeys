@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   var pkg = grunt.file.readJSON("package.json"),
       mnf = grunt.file.readJSON("code/manifest.json"),
-      fileMaps = { browserify: {}, uglify: {} },
+      fileMaps = { browserify: {} },
       jsFiles = grunt.file.expand(["code/js/**/*.js", "!code/js/lib/*"]),
       htmlFiles = grunt.file.expand(["code/html/*.html", "code/css/*"]),
       file,
@@ -11,7 +11,6 @@ module.exports = function(grunt) {
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     fileMaps.browserify["build/unpacked-dev/js/" + file] = "code/js/" + file;
-    fileMaps.uglify["build/unpacked-prod/js/" + file] = "build/unpacked-dev/js/" + file;
   }
 
   grunt.initConfig({
@@ -32,7 +31,7 @@ module.exports = function(grunt) {
       prod: { files: [ {
         expand: true,
         cwd: "build/unpacked-dev/",
-        src: ["**", "!js/*.js"],
+        src: ["**"],
         dest: "build/unpacked-prod/"
       } ] },
       artifact: { files: [ {
@@ -67,16 +66,16 @@ module.exports = function(grunt) {
       }
     },
 
-    uglify: {
-      min: { files: fileMaps.uglify }
-    },
-
     watch: {
       files: jsFiles.concat(htmlFiles),
       tasks: ["dev"]
     },
 
     sass: {
+      options: {
+        implementation: require('node-sass'),
+        sourceMap: true
+      },
       prod: {
         files: {
           "build/unpacked-prod/css/popup.css": "code/css/popup.scss",
@@ -102,7 +101,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-sass");
   grunt.loadNpmTasks("grunt-exec");
   grunt.loadNpmTasks("grunt-mkdir");
@@ -111,7 +109,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-karma");
 
   /* Tasks */
-  /*grunt.registerTask(
+  grunt.registerTask(
     "manifest", "Extend manifest.json with extra fields from package.json",
     function() {
       var fields = ["name", "version", "description"];
@@ -122,13 +120,13 @@ module.exports = function(grunt) {
       grunt.file.write("build/unpacked-dev/manifest.json", JSON.stringify(mnf, null, 2) + "\n");
       grunt.log.ok("manifest.json generated");
     }
-  );*/
+  );
 
   grunt.registerTask("lint", ["jshint", "lintspaces"]);
   grunt.registerTask("test", ["karma"]);
   grunt.registerTask("rel-test", ["rel", "test"]);
-  grunt.registerTask("dev-pre", [/*"jshint", */"lintspaces", "clean", "mkdir:unpacked", "sass:dev", "copy:main"/*, "manifest"*/]);
+  grunt.registerTask("dev-pre", [/*"jshint", */"lintspaces", "clean", "mkdir:unpacked", "sass:dev", "copy:main", "manifest"]);
   grunt.registerTask("dev", ["dev-pre", "browserify"]);
 
-  grunt.registerTask("rel", ["jshint", "lintspaces", "clean", "mkdir:unpacked", "sass:prod", "copy:main", /*"manifest", */"browserify", "copy:prod", "uglify"]);
+  grunt.registerTask("rel", [/*"jshint", */"lintspaces", "clean", "mkdir:unpacked", "sass:prod", "copy:main", "manifest", "browserify", "copy:prod"]);
 };

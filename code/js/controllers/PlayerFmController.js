@@ -7,9 +7,11 @@
     siteName: "Player.fm",
     play: ".control.play",
     pause: ".control.pause",
-    playNext: ".control.forward",
-    playPrev: ".control.backward",
+    playNext: ".control.fast-forward",
+    playPrev: ".control.fast-backward",
 
-    song: ".current-episode-link"
+    song: ".current-episode-link",
+    artist: ".current-series-link",
+    art: ".thumb > img"
   });
 })();

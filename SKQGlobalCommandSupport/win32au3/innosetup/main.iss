@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "StreamKeys Quantum (Firefox extension)"
-#define MyAppVersion "1.7.6.2"
+#define MyAppVersion "1.7.6.1"
 #define MyAppPublisher "efprojects.com"
 #define MyAppURL "https://lnurl.ru/streamkeys-quantum"
 #define SkqgcsFolder ""

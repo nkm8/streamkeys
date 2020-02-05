@@ -5,17 +5,22 @@
 
   var controller = new MouseEventController({
     siteName: "Hulu",
-    play: "div.play-pause-button",
-    pause: "div.play-pause-button",
-    playNext: "div.next-video-button",
-    playPrev: "div.rewind-button",
-    mute: "div.volume-image",
+    play: "div.controls__playback-button-playing",
+    pause: "div.controls__playback-button-paused",
+    playNext: "div.controls__fastforward-button",
+    playPrev: "div.controls__rewind-button",
+    mute: "div.controls__volume-button-mute",
 
-    song: ".pause-title",
-    buttonSwitch: true
+    song: ".metadata-area__third-line",
+    artist: ".metadata-area__second-line",
+    art: ".end-card__replay-thumbnail",
+    currentTime: ".controls__time-elapsed",
+    totalTime: ".controls__time-duration",
+
+    buttonSwitch: false
   });
 
   controller.isPlaying = function () {
-    return !!(this.doc().querySelector("div.play-pause-button.playing"));
+    return !!(this.doc().querySelector("div.controls__playback-button--playing"));
   };
 })();

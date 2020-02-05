@@ -7,12 +7,6 @@
       _ = require("lodash");
 
   /**
-   * Needed for phantomjs to work
-   * @see [https://github.com/ariya/phantomjs/issues/12401]
-   */
-  require("es6-promise").polyfill();
-
-  /**
    * Tracks TimeoutIds by notification ID, to cancel previous uncomplete Timeouts
    * when a new notification is created prior to the last notification clearing
    */
@@ -80,7 +74,7 @@
     tabs = _.filter(tabs, function(tab) {
       return maxTimestamp - getTabUpdateTime(tab) < 200;
     });
-    var sorted = _.sortByAll(tabs, "active", getTabUpdateTime);
+    var sorted = _.sortBy(tabs, ["active", getTabUpdateTime]);
     return _.last(sorted);
   };
 
@@ -146,6 +140,7 @@
     if(request.action === "inject_controller") {
       console.log("Inject: " + request.file + " into: " + sender.tab.id);
       chrome.tabs.executeScript(sender.tab.id, {file: request.file});
+      if (mprisPort) mprisPort.postMessage({ command: "add_player" });
     }
     if(request.action === "check_music_site") {
       /**
@@ -167,6 +162,7 @@
         stateData: request.stateData,
         fromTab: sender.tab
       });
+      if (mprisPort) handleStateData(updateMPRISState);
     }
     if(request.action === "get_music_tabs") {
       var musicTabs = window.skSites.getMusicTabs();
@@ -185,15 +181,28 @@
   });
 
   var sendChangeNotification = function(request, sender) {
+    if (!request.stateData.song) {
+      return;
+    }
+
+    var notificationItems = [
+        { title: request.stateData.song.trim(), message: "" },
+      ];
+
+    if (request.stateData.artist || request.stateData.album) {
+      notificationItems.push({ title: (request.stateData.artist || "").trim(), message: (request.stateData.album || "").trim() });
+    }
+
+    if (request.stateData.currentTime || request.stateData.totalTime) {
+      notificationItems.push({ title: (request.stateData.currentTime || "").trim(), message: (request.stateData.totalTime || "").trim() });
+    }
+
     chrome.notifications.create(sender.id + request.stateData.siteName, {
         type: "list",
         title: request.stateData.siteName,
-        message: request.stateData.song || "",
+        message: (request.stateData.song || "").trim(),
         iconUrl: request.stateData.art || chrome.extension.getURL("icon128.png"),
-        items: [
-          { title: request.stateData.song, message: "" },
-          { title: request.stateData.artist || "", message: request.stateData.album || "" }
-        ]
+        items: notificationItems
       }, function(notificationId) {
         if(notificationTimeouts[notificationId])
         {
@@ -221,7 +230,7 @@
         };
 
         chrome.storage.local.get(function(localStorageObj) {
-          _.each(localStorageObj, function(value, key) {
+          _.forEach(localStorageObj, function(value, key) {
             newStorageObj[key] = value;
           });
 
@@ -250,6 +259,150 @@
     // Define skSites as a sitelist in global context
     window.skSites = new Sitelist();
     window.skSites.loadSettings();
+  });
+
+  /**
+   * MPRIS support
+   */
+  var connections = 0;
+  var mprisPort = null;
+
+  var hmsToSecondsOnly = function(str) {
+    var p = str.split(":");
+    var s = 0;
+    var m = 1;
+
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+
+    return s;
+  };
+
+  var handleNativeMsg = function(msg) {
+    switch(msg.command) {
+      case "play":
+      case "pause":
+      case "playpause":
+        sendAction("playPause");
+        break;
+      case "stop":
+        sendAction("stop");
+        break;
+      case "next":
+        sendAction("playNext");
+        break;
+      case "previous":
+        sendAction("playPrev");
+        break;
+      default:
+        console.log("Cannot handle native message command: " + msg.command);
+      }
+  };
+
+  /**
+   * Get the state of the player that a command will end up affecting and pass
+   * it to a function to handle them, along with the tab that corresponds to
+   * that state data.
+   * For "single player mode" (which is required for MPRIS support), a command
+   * will end up affecting the best tab if there are active tabs but no
+   * playing tabs, or all playing tabs if there are playing tabs (see
+   * sendActionSinglePlayer). With that in mind:
+   * - If there is no active tab, then the state and the tab are null.
+   * - If there are active tabs but no playing tabs, use the best tab.
+   * - If there are any playing tabs, just use the state of the best playing
+   *   tab. The command will be sent to all playing tabs anyway.
+   */
+  var handleStateData = function(func) {
+    var activeMusicTabs = window.skSites.getActiveMusicTabs();
+    activeMusicTabs.then(function(tabs) {
+      if (_.isEmpty(tabs)) {
+        func(null, null);
+      } else {
+        var bestTab = null;
+        var playingTabs = getPlayingTabs(tabs);
+        if (_.isEmpty(playingTabs)){
+          bestTab = getBestSinglePlayerTab(tabs);
+        } else {
+          bestTab = getBestSinglePlayerTab(playingTabs);
+        }
+
+        func(tabStates[bestTab.id].state, bestTab);
+      }
+    });
+  };
+
+  /**
+   * If stateData is null, then state is stopped with NoTrack. Otherwise update
+   * with the state of the player that a command will end up affecting.
+   */
+  var updateMPRISState = function(stateData, tab) {
+    if (stateData === null) {
+        mprisPort.postMessage({ command: "remove_player" });
+      } else {
+        var metadata = {
+          "mpris:trackid": stateData.song ? tab.id : null,
+          "xesam:title": stateData.song,
+          "xesam:artist": stateData.artist ? [stateData.artist.trim()] : null,
+          "xesam:album": stateData.album,
+          "mpris:artUrl": stateData.art,
+          "mpris:length": hmsToSecondsOnly((stateData.totalTime || "0").trim()) * 1000000
+        };
+        var args = [{ "CanGoNext": stateData.canPlayNext,
+                  "CanGoPrevious": stateData.canPlayPrev,
+                  "PlaybackStatus": (stateData.isPlaying ? "Playing" : "Paused"),
+                  "CanPlay": stateData.canPlayPause,
+                  "CanPause": stateData.canPlayPause,
+                  "Metadata": metadata,
+                  "Position": hmsToSecondsOnly((stateData.currentTime || "0").trim()) * 1000000}];
+
+        mprisPort.postMessage({ command: "update_state", args: args });
+      }
+    };
+
+  /**
+   * Connect to the native messaging host for MPRIS support
+   */
+  chrome.storage.sync.get(function(obj) {
+
+    if (obj.hasOwnProperty("hotkey-use_mpris") && obj["hotkey-use_mpris"]) {
+      if (!connections) {
+        connections += 1;
+        console.log("Starting native messaging host");
+        mprisPort = chrome.runtime.connectNative("org.mpris.streamkeys_host");
+        mprisPort.onMessage.addListener(handleNativeMsg);
+
+        chrome.runtime.onSuspend.addListener(function() {
+          if (!--connections)
+            mprisPort.postMessage({ command: "quit" });
+            mprisPort.onMessage.removeListener(handleNativeMsg);
+            mprisPort.disconnect();
+        });
+
+        /**
+         * When a music tab is removed, we must remove it from tabStates and
+         * update the state of the MPRIS player.
+         */
+        chrome.tabs.onRemoved.addListener(function(tabId) {
+          if (tabStates.hasOwnProperty(tabId)) {
+            delete tabStates[tabId];
+            handleStateData(updateMPRISState);
+          }
+        });
+
+        /**
+         * When the active tab changes, the best single tab might change too.
+         * Thus we need to update the state of the MPRIS player.
+         */
+        chrome.tabs.onActivated.addListener(function(activeInfo) {
+          if (tabStates.hasOwnProperty(activeInfo.tabId)) {
+            handleStateData(updateMPRISState);
+          }
+        });
+
+      }
+    }
   });
 
   /**
