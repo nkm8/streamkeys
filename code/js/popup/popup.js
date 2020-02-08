@@ -1,8 +1,7 @@
-"use strict";
-
-var ko = require("ko"),
-    _ = require("lodash");
+var ko = require("knockout");
+var _ = require("lodash");
 require("../lib/material.min.js");
+require('../../css/popup.scss');
 
 var PopupViewModel = function PopupViewModel() {
   var self = this;

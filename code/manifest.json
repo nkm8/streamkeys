@@ -1,7 +1,6 @@
 {
   "name": "StreamKeys Quantum",
   "description": "Global hotkeys for online music players including support for media keys.",
-  "version": "1.7.6.1",
   "manifest_version": 2,
   "homepage_url": "https://lnurl.ru/streamkeys-quantum",
   "icons": {"48": "icon48.png", "128": "icon128.png"},
@@ -22,10 +21,6 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["js/contentscript.js"]
-    },
-    {
-      "matches": ["*://*.streamkeys.com/*"],
-      "js": ["js/inject/sksite_inject.js"]
     }
   ],
   "web_accessible_resources": [

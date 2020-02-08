@@ -1,7 +1,6 @@
-"use strict";
-
-var ko = require("ko");
+var ko = require("knockout");
 require("./lib/material.min.js");
+require('../css/options.scss');
 // let commandSupport = require("./quantum/commandsupport.js");
 
 var OptionsViewModel = function OptionsViewModel() {
