@@ -46,7 +46,7 @@ var PopupViewModel = function PopupViewModel() {
   });
 
   self.visibleMusicTabs = ko.observableArray([]);
-  self.optionsUrl = ko.observable(chrome.runtime.getURL("html/options.html"));
+  self.optionsUrl = ko.observable(chrome.runtime.getURL("options.html"));
 
   self.openOptionsPage = function() {
     window.open(self.optionsUrl());
