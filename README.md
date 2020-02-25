@@ -8,9 +8,7 @@ It's the first Firefox Quantum extension with the ability to capture Play/Pause/
 **Attention!** At the time this extension works only on Windows OS (XP to 10). It requires an installation of additioal software *SKQGlobalCommandSupport*.
 It's 100% opensource and contains no viruses nor spyware. It is as small as 850 kilobytes and consumes only 2 Mb of RAM.
 
-**First beta version does not support key configuration.**
-Default config is mapped to media keys on yor keyboard. If you have no such, please wait for the next version with remapping support or consider buying more modern keyboard.
-Even $5-$10 keyboards from your local store have such keys in 2018.
+Since 1.1.180 this extension supports hotkey reconfiguration using Autoit3 syntax (Options -> Global)
 
 ## SKQGlobalCommandSupport application compiling
 
