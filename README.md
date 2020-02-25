@@ -43,17 +43,10 @@ In Chrome, load the unpacked extension from `build/unpacked-dev/`.
 
 
 ## NPM Scripts
-- `npm test`: Run unit tests.
 
-- `npm run develop`: Lints `code/*`, runs browserify, copies built code to `build/unpacked-dev/` and `test/streamkeys-ext/` in watch mode
+- `npm run build-dev` : Developing webpack build
 
-- `npm run grunt:dev`: Lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/` and `test/streamkeys-ext/`
-
-- `npm run grunt:rel`: Lints `code/*`, runs browserify and uglify and copies built code to `build/unpacked-prod/` and `test/streamkeys-ext/`
-
-- `npm run grunt:watch`: Watches for changes to JS files in `code/*`, lints `code/*`, runs browserify and copies built code to `build/unpacked-dev/`
-
-- `npm run grunt:lint`: Lints `code/*`
+- `npm run build-prod` : Production webpack build
 
 
 ## Info
