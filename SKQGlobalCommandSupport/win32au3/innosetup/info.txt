@@ -1,16 +1,16 @@
 Welcome to first on the Earth Firefox Quantum extension capable of controlling your music, even outside the browser!
 
-This extension will never be placed to Addons Mozilla Org store, because it requires an additional exe file (SKQGlobalCommandSupport Helper), 
+This extension will never be placed to Addons Mozilla Org store, because it requires an additional exe file (SKQGlobalCommandSupport Helper),
 which cannnot be installed from firefox itself, so this extension requires an additional installer.
 
-Program contains no viruses, spyware or other malware, it's source code is avaliable at https://github.com/Egor3f/streamkeys-quantum 
+Program contains no viruses, spyware or other malware, it's source code is avaliable at https://github.com/Egor3f/streamkeys-quantum
 
 It is the fork of original Google Chrome extension names "StreamKeys"
 
-Attention! This file is a beta version, it does not contain many significant features, such as key remapping (only default media keys are supported).
+Attention! This file is a beta version.
 
-(c) 2018-2020, Egor Aristov a.k.a. Egor3f 
+(c) 2018-2020, Egor Aristov a.k.a. Egor3f
 
-https://efprojects.com/ 
+https://efprojects.com/
 
 https://lnurl.ru/streamkeys-quantum

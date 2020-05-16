@@ -5,8 +5,8 @@
 #define MyAppVersion "1.1.180"
 #define MyAppPublisher "efprojects.com"
 #define MyAppURL "https://lnurl.ru/streamkeys-quantum"
-#define SkqgcsFolder ""
-                                 
+#define SkqXpiName "skq@efprojects.com.xpi"
+
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -43,7 +43,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "..\extension\skq@efprojects.com.xpi"; DestDir: "{userappdata}\Mozilla\Extensions\{{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\"; DestName: "skq@efprojects.com.xpi"; Flags: ignoreversion
+Source: "..\extension\skq@efprojects.com.xpi"; DestDir: "{tmp}\"; DestName: "{#SkqXpiName}"; Flags: ignoreversion
 Source: "..\config.ini"; DestDir: "{localappdata}\SKQGlobalCommandSupport"; Flags: ignoreversion
 Source: "..\manifest.json"; DestDir: "{localappdata}\SKQGlobalCommandSupport"; Flags: ignoreversion
 Source: "..\script\streamkeyshelper.exe"; DestDir: "{localappdata}\SKQGlobalCommandSupport"; Flags: ignoreversion
@@ -53,16 +53,18 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; 
 
 [Dirs]
 Name: "{localappdata}\SKQGlobalCommandSupport"
-Name: "{userappdata}\Mozilla\Extensions\{{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
 
 [Registry]
 Root: "HKCU"; Subkey: "Software\Mozilla\NativeMessagingHosts\skqgcs"; ValueType: string; ValueData: "{localappdata}\SKQGlobalCommandSupport\manifest.json"; Flags: createvalueifdoesntexist deletekey uninsdeletekey
 
 [Messages]
-WelcomeLabel2=This will install StreamKeys-Quantum Beta version. It misses some important features, such as key remapping, so watch for release version soon! %n%nAttention! Please, close all Firefox windows before continuation!
+WelcomeLabel2=This will install StreamKeys-Quantum Beta version.
 
 [CustomMessages]
 ffnotinst=Firefox is not installed on your PC. This plugin is for Firefox only.
+
+[Run]
+Filename: "firefox"; Parameters: """file:///{tmp}\{#SkqXpiName}"""; Flags: nowait shellexec; StatusMsg: "Installing webextension to Firefox..."
 
 [Code]
 function InitializeSetup(): Boolean;
