@@ -1,6 +1,6 @@
 var ko = require("knockout");
 var _ = require("lodash");
-require("../lib/material.min.js");
+require("material-design-lite");
 require('../../css/popup.scss');
 
 var PopupViewModel = function PopupViewModel() {

@@ -66,9 +66,8 @@ Figure out the css selectors for a site's media player buttons and create a new 
 ```javascript
 Filename: FooplayerController.js
 
-;(function() {
-  "use strict";
-
+"use strict";
+(function() {
   var BaseController = require("BaseController");
 
   new BaseController({
@@ -126,30 +125,30 @@ $ npm test
 
 ## Linux MPRIS support
 
-On Linux you can enable basic MPRIS support in options. Currently this requires
+On Linux you can enable basic [MPRIS][1] support in options. Currently, this requires
 `single player mode` to be enabled. It requires an extra host script to be
-installed.
+installed. The host script currently supports Chromium, Google Chrome and Brave.
 
 #### Install host script
 
-To install the host script, locate the extension ID from the Chrome extensions page
-and run the following commands:
+To install the host script, run the following commands:
 
 ```bash
-$ extension_id="....."
+$ extension_id="ekpipjofdicppbepocohdlgenahaneen"
 $ installer=$(find $HOME/.config -name "mpris_host_setup.py" | grep ${extension_id})
-$ python3 ${installer} install ${extension_id}
+$ python3 "${installer}" install ${extension_id}
 ```
+
+A restart of the browser is necessary to load the changes.
 
 #### Uninstall host script
 
-To uninstall the host script, locate the extension ID from the Chrome extensions page
-and run the following commands:
+To uninstall the host script, run the following commands:
 
 ```bash
-$ extension_id="....."
+$ extension_id="ekpipjofdicppbepocohdlgenahaneen"
 $ installer=$(find $HOME/.config -name "mpris_host_setup.py" | grep ${extension_id})
-$ python3 ${installer} uninstall
+$ python3 "${installer}" uninstall
 ```
 
 
